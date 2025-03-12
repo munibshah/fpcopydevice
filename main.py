@@ -12,14 +12,14 @@ from yaml_converter import phyintf_yaml,etherintf_yaml,subintf_yaml
 
 # ### Set these variables to match your environment. ### #
 
-host = "10.8.63.91"
+host = "1.1.1.1"
 username = "admin"
-password = "CXlabs.123"
+password = "Cisco123"
 autodeploy = False
 logname = "TestingUserScript.log"
 pagelimit = 500
 debug = False
-ftdname = "pdx1-co-pop-fw1"
+ftdname = ""
 
 def main():
     with fmcapi.FMC(
