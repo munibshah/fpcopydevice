@@ -1,0 +1,14 @@
+certifi==2025.1.31
+charset-normalizer==3.4.1
+DateTime==5.5
+fmcapi==20250218.0
+idna==3.10
+ipaddress==1.0.23
+pytz==2025.1
+PyYAML==6.0.2
+requests==2.32.3
+setuptools==76.0.0
+urllib3==2.3.0
+xmltodict==0.14.2
+yml==0.0.1
+zope.interface==7.2
