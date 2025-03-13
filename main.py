@@ -7,10 +7,10 @@ from yaml_converter import phyintf_yaml,etherintf_yaml,subintf_yaml
 from cleanfile import clear_output_folder
 
 
-host = "10.8.63.91"
+host = "1.1.1.1"
 username = "admin"
-password = "CXlabs.123"
-ftdname = "pdx1-co-pop-fw1"
+password = "xxxxx"
+ftdname = "ftdname"
 
 clear_output_folder("output")
 
