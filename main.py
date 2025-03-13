@@ -1,52 +1,35 @@
-"""
-Unit testing, of a sort, all the created methods/classes.
-"""
-
-import fmcapi
+from fireREST import FMC
 import logging
-import unit_tests
 import yaml
-from collections import OrderedDict
+import os 
+import shutil
 from yaml_converter import phyintf_yaml,etherintf_yaml,subintf_yaml
+from cleanfile import clear_output_folder
 
 
-# ### Set these variables to match your environment. ### #
-
-host = "1.1.1.1"
+host = "10.8.63.91"
 username = "admin"
-password = "Cisco123"
-autodeploy = False
-logname = "TestingUserScript.log"
-pagelimit = 500
-debug = False
-ftdname = ""
+password = "CXlabs.123"
+ftdname = "pdx1-co-pop-fw1"
 
-def main():
-    with fmcapi.FMC(
-        host=host,
-        username=username,
-        password=password,
-        autodeploy=autodeploy,
-        limit=pagelimit,
-        file_logging=logname,
-        debug=debug,
-    ) as fmc1:
-        
-        # Initiate DeviceRecords
-        ftd = fmcapi.DeviceRecords(fmc=fmc1)
-        ftd.get(name=ftdname)
+clear_output_folder("output")
 
-        #Call interfaces and save it under interfacec.yaml
-        ftd_phyintf = fmcapi.PhysicalInterfaces(fmc=fmc1, device_name=ftd.name)
-        ftd_subintf= fmcapi.SubInterfaces(fmc=fmc1, device_name=ftd.name)
-        ftd_etherintf = fmcapi.EtherchannelInterfaces(fmc=fmc1, device_name=ftd.name)
-        print("\n")
-        for interface in ftd_phyintf.get()["items"]: 
-            phyintf_yaml(interface,filepath="interfaces.yaml")
-        for interface in ftd_subintf.get()["items"]: 
-            subintf_yaml(interface,filepath="interfaces.yaml")
-        for interface in ftd_etherintf.get()["items"]: 
-            etherintf_yaml(interface,filepath="interfaces2.yaml")
+fmc = FMC(hostname=host, username=username, password=password, domain='Global')
+Device = fmc.device.devicerecord.get(name="pdx1-co-pop-fw1")
+containerID = Device.get('id')
+EtherIntf = fmc.device.devicerecord.etherchannelinterface.get(container_uuid=containerID)
+SubIntf = fmc.device.devicerecord.subinterface.get(container_uuid=containerID)
+PhyIntf = fmc.device.devicerecord.physicalinterface.get(container_uuid=containerID)
 
-if __name__ == "__main__":
-    main()
+for interface in EtherIntf:
+    print(interface)
+    etherintf_yaml(interface,filepath="output/etherchannelintf.yaml")
+
+for interface in SubIntf:
+    print(interface)
+    subintf_yaml(interface,filepath="output/subintf.yaml")
+
+for interface in PhyIntf:
+    print(interface)
+    phyintf_yaml(interface,filepath="output/phyintf.yaml")
+

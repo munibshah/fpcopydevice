@@ -1,5 +1,5 @@
 import yaml
-from collections import OrderedDict
+import os
 
 def phyintf_yaml(obj, filepath="interfaces.yaml"):
     """
@@ -15,21 +15,25 @@ def phyintf_yaml(obj, filepath="interfaces.yaml"):
     #  you stated in your example. If you want the interface's ID, replace
     #  obj['metadata']['domain']['id'] with obj['id'].)
     minimal_obj = {
-        'ifname': obj['ifname'],
         'name': obj['name'],
+        'ifname': obj['ifname'],
         'id': obj['metadata']['domain']['id'],  # or obj['id'] if you want the interface ID
         'type': obj['type'],
         'MTU': obj['MTU'],
         'enabled': obj['enabled'],
+        'ipv4address': obj.get('ipv4', {}).get('static', {}).get('address'),
+        'ipv4netmask': obj.get('ipv4', {}).get('static', {}).get('netmask'),
+        'securityZoneId': obj.get('securityZone', {}).get('id'),
         'managementOnly': obj['managementOnly'],
     }
+    mode = "a" if os.path.isfile(filepath) else "w"
     yaml_string = yaml.dump(minimal_obj, default_flow_style=False, sort_keys=False)
     print(yaml_string)
     # Append this minimal object to the YAML file as a new document
-    with open(filepath, "w") as f:
+    with open(filepath, mode) as f:
         # The 'explicit_start=True' ensures that each appended block 
         # starts with "---", creating multiple YAML documents in one file
-        f.write("\n---\n")
+        # f.write("\n---\n")
         f.write(yaml_string)
         f.write("\n")
 
@@ -55,25 +59,26 @@ def subintf_yaml(obj, filepath="interfaces.yaml"):
 
     # Build a minimal dictionary with the fields you want.
     minimal_obj = {
-        'ifname': obj.get('ifname'),
         'name': obj.get('name'),
+        'subIntfId': obj.get('subIntfId'),
+        'vlanId': obj.get('vlanId'),
+        'ifname': obj.get('ifname'),
         'id': obj.get('id'),
         'type': obj.get('type'),
         'enabled': obj.get('enabled'),
-        'vlanId': obj.get('vlanId'),
-        'subIntfId': obj.get('subIntfId'),
         'ipv4address': obj.get('ipv4', {}).get('static', {}).get('address'),
         'ipv4netmask': obj.get('ipv4', {}).get('static', {}).get('netmask'),
         'securityZoneId': obj.get('securityZone', {}).get('id'),
         'managementOnly': obj.get('managementOnly'),
     }
+    mode = "a" if os.path.isfile(filepath) else "w"
     yaml_string = yaml.dump(minimal_obj, default_flow_style=False, sort_keys=False)
     print(yaml_string)
     # Append this minimal object to the YAML file as a new document
-    with open(filepath, "a") as f:
+    with open(filepath, mode) as f:
         # The 'explicit_start=True' ensures that each appended block 
         # starts with "---", creating multiple YAML documents in one file
-        f.write("\n---\n")
+        # f.write("\n---\n")
         f.write(yaml_string)
         f.write("\n")
 
@@ -97,7 +102,6 @@ def etherintf_yaml(obj, filepath="interfaces.yaml"):
 
     # Build a minimal dictionary with the fields you want.
     minimal_obj = {
-        'ifname': obj.get('ifname'),  # Some EtherChannel objects may not have 'ifname'
         'name': obj.get('name'),
         'id': obj.get('id'),
         'type': obj.get('type'),
@@ -113,6 +117,6 @@ def etherintf_yaml(obj, filepath="interfaces.yaml"):
     with open(filepath, "a") as f:
         # The 'explicit_start=True' ensures that each appended block 
         # starts with "---", creating multiple YAML documents in one file
-        f.write("\n---\n")
+        # f.write("\n---\n")
         f.write(yaml_string)
         f.write("\n")
