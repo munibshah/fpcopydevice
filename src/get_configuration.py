@@ -32,19 +32,19 @@ def main():
 
         #Extract fields and save inside Interfaces folder as json and yaml
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Physical interfaces saved in {Intffolderpath}")
-        phyintf_yaml(fmc,containerID,folderpath="output/Interfaces")
+        get_phyintf(fmc,containerID,folderpath="output/Interfaces")
 
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Etherchannel interfaces saved in {Intffolderpath}")
-        etherintf_yaml(fmc,containerID,folderpath="output/Interfaces")
+        get_etherintf(fmc,containerID,folderpath="output/Interfaces")
 
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Sub-interfaces interfaces saved in {Intffolderpath}")
-        subintf_yaml(fmc,containerID,folderpath="output/Interfaces")
+        get_subintf(fmc,containerID,folderpath="output/Interfaces")
         
         #Get VirtualRouters and save it to the output folder 
         VRfolderpath="output"
         
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Virtual Routing Configuration saved in {VRfolderpath}")
-        virtualrouters = vr_yaml(fmc,containerID,folderpath=VRfolderpath)
+        virtualrouters = get_vr(fmc,containerID,folderpath=VRfolderpath)
 
 
         #vr_list =[]
@@ -56,14 +56,14 @@ def main():
             os.makedirs(directory, exist_ok=True)
             
             print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] VRF IPv4 Static Routes saved in {directory}")
-            vr_routes_yaml(fmc,containerID,vr["id"],folderpath=directory)
+            get_vr_ipv4staticroutes(fmc,containerID,vr["id"],folderpath=directory)
 
             
             print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] VRF BGP Routes saved in {directory}")
-            vr_bgp_routes_yaml(fmc,containerID,vr["id"],folderpath=directory)
+            get_vr_bgproutes(fmc,containerID,vr["id"],folderpath=directory)
 
             print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] VRF ECMP configuration saved in {directory}")
-            vr_ecmpzones_yaml(fmc,containerID,vr["id"],folderpath=directory)
+            get_vr_ecmpzones(fmc,containerID,vr["id"],folderpath=directory)
 
     else:
         print("\nExisiting program..")

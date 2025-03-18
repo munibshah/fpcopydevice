@@ -2,7 +2,7 @@ import yaml
 import os
 import json
 
-def phyintf_yaml(fmc,containerID,folderpath="interfaces.yaml"):
+def get_phyintf(fmc,containerID,folderpath="interfaces.yaml"):
     data = fmc.device.devicerecord.physicalinterface.get(container_uuid=containerID)
     json_converted_data=[]
     for obj in data:
@@ -32,7 +32,7 @@ def phyintf_yaml(fmc,containerID,folderpath="interfaces.yaml"):
     with open(phyjsonpath,mode) as f:
         f.write(json_string)
 
-def subintf_yaml(fmc,containerID,folderpath="interfaces.yaml"):
+def get_subintf(fmc,containerID,folderpath="interfaces.yaml"):
     data = fmc.device.devicerecord.subinterface.get(container_uuid=containerID)
     #Extract relevant JSON 
     json_converted_data = []
@@ -75,7 +75,7 @@ def subintf_yaml(fmc,containerID,folderpath="interfaces.yaml"):
         f.write(json_string)
 
 
-def etherintf_yaml(fmc,containerID,folderpath="interfaces.yaml"):
+def get_etherintf(fmc,containerID,folderpath="interfaces.yaml"):
     data = fmc.device.devicerecord.etherchannelinterface.get(container_uuid=containerID)
     # Build a minimal dictionary with the fields you want.
     json_converted_data = []
@@ -108,7 +108,7 @@ def etherintf_yaml(fmc,containerID,folderpath="interfaces.yaml"):
     with open(etherjsonpath,mode) as f:
         f.write(json_string)
 
-def vr_yaml(fmc, containerID,folderpath="output"):
+def get_vr(fmc, containerID,folderpath="output"):
     virtualrouters=fmc.device.devicerecord.routing.virtualrouter.get(container_uuid=containerID)
     json_converted_data=[]
     for obj in virtualrouters:
@@ -131,7 +131,7 @@ def vr_yaml(fmc, containerID,folderpath="output"):
         f.write(json_string)
     return(virtualrouters)
 
-def vr_routes_yaml(fmc,containerID, vr_id, folderpath="output",vridonly=False):
+def get_vr_ipv4staticroutes(fmc,containerID, vr_id, folderpath="output",vridonly=False):
     ipv4staticroute=fmc.device.devicerecord.routing.virtualrouter.ipv4staticroute.get(container_uuid=containerID,child_container_uuid=vr_id)
     json_converted_data=[]
     for obj in ipv4staticroute:
@@ -170,7 +170,7 @@ def vr_routes_yaml(fmc,containerID, vr_id, folderpath="output",vridonly=False):
 
 
 
-def vr_bgp_routes_yaml(fmc,containerID, vr_id, folderpath="bgp.yaml",vridonly=False):
+def get_vr_bgproutes(fmc,containerID, vr_id, folderpath="bgp.yaml",vridonly=False):
     # Extract minimal BGP details while maintaining nesting
     bgproutes = fmc.device.devicerecord.routing.virtualrouter.bgp.get(container_uuid=containerID,child_container_uuid=vr_id)
     
@@ -218,7 +218,7 @@ def vr_bgp_routes_yaml(fmc,containerID, vr_id, folderpath="bgp.yaml",vridonly=Fa
         with open(vridoutput, "w") as f:
             f.write(vr_string)
 
-def vr_ecmpzones_yaml(fmc,containerID, vr_id, folderpath="ecmpzones.yaml",vridonly=False):
+def get_vr_ecmpzones(fmc,containerID, vr_id, folderpath="ecmpzones.yaml",vridonly=False):
     ecmpzone = fmc.device.devicerecord.routing.virtualrouter.ecmpzones.get(container_uuid=containerID,child_container_uuid=vr_id)
 
     #print(ecmpzone)

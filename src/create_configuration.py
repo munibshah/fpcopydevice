@@ -2,39 +2,14 @@ from fireREST import FMC
 from config.create import *
 from .get_configuration import *
 from dotenv import load_dotenv # type: ignore
-
+import argparse
+from utils.initialize import *
 
 # Read YAML file
 
 def main():
-    load_dotenv(dotenv_path=".env")
-    host = os.getenv("HOST")
-    username = os.getenv("USERNAME")
-    password = os.getenv("PASSWORD")
-    ftdname = os.getenv("FTDNAME")
-
-    #Initialize the FMC object and get the container ID for ftdname
-
-    fmc = FMC(hostname=host, username=username, password=password, domain='Global')
-    Device = fmc.device.devicerecord.get(name=ftdname)
-    containerID = Device.get('id')
-    folderpath = "output"
-    vrdirectory = "output/VirtualRouters"
-
-    #Creates VR by reading output/vr.json
-    #create_vr(fmc,containerID,folderpath)
-    VRfolderpath="output"
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Creating VR in {VRfolderpath}")
-    create_vr(fmc,containerID,folderpath)
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Virtual Routing Configuration saved in {VRfolderpath}")
-    virtualrouters = vr_yaml(fmc,containerID,folderpath=VRfolderpath)
-
-    for vr in virtualrouters:
-            #Main directory for all VRFs 
-            directory =f"output/VirtualRouters/{vr["name"]}"
-            os.makedirs(directory, exist_ok=True)
-            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] New VRF ID saved in {directory}")
-            vr_bgp_routes_yaml(fmc,containerID,vr["id"],folderpath=directory,vridonly=True)
+    
+    fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
     
     #Get created ipv4staticroutes by iterating over every folder in the folder VR. vr.json is used for the ID 
     create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
@@ -46,4 +21,30 @@ def main():
     print("Run get_configuration to update json data for delete to work..")
 
 if __name__ == "__main__":
-    main()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--function',choices=['create_vr','create_vr_ipv4staticroutes','create_vr_ecmpzones','create_vr_bgp','all'],help='Options to choose from:')
+    args = parser.parse_args()
+
+    if args.function == 'create_vr':
+        fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Creating VR in {vrdirectory}")
+        create_vr(fmc,containerID,folderpath)
+
+    elif args.function == 'create_vr_ipv4staticroutes':
+        fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
+        initialize_vr_get_id()
+        create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
+
+    elif args.function == 'create_vr_ecmpzones':
+        fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
+        initialize_vr_get_id()
+        create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
+
+    elif args.function == 'create_vr_bgp':
+        fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
+        initialize_vr_get_id()
+        create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
+    
+    elif args.function == 'all':
+         main()

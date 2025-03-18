@@ -20,10 +20,9 @@ def create_vr_ipv4staticroutes(fmc,containerID,basedirectory):
         for vr_name in os.listdir(basedirectory): #Folders under VR exists
             vr_path = os.path.join(basedirectory, vr_name) # Example /output/Client
             if os.path.isdir(vr_path): # if /output/Client is a directory
-                vrid_file = os.path.join(vr_path, "vrid.json") # vrif_file = /output/Client/vr.json
                 ipv4staticroutefile = os.path.join(vr_path, "ipv4staticroute.json") # = /output/Client/ipv4staticroute.json
                 
-                vr_id = get_vrid(vrid_file)
+                vr_id = get_vrid(vr_path)
                 with open(ipv4staticroutefile, "r") as file:
                     vr_routes = json.load(file)
                 
@@ -39,10 +38,9 @@ def create_vr_ecmpzones(fmc,containerID,basedirectory):
         for vr_name in os.listdir(basedirectory): #Folders under VR exists
             vr_path = os.path.join(basedirectory, vr_name) # Example /output/Client
             if os.path.isdir(vr_path): # if /output/Client is a directory
-                vrid_file = os.path.join(vr_path, "vrid.json") # vrif_file = /output/Client/vr.json
                 ecmpzonefile = os.path.join(vr_path, "ecmp.json") # = /output/Client/ipv4staticroute.json
                 
-                vr_id = get_vrid(vrid_file)
+                vr_id = get_vrid(vr_path)
                 with open(ecmpzonefile, "r") as file:
                     vr_routes = json.load(file)
                 
@@ -55,14 +53,13 @@ def create_vr_bgp(fmc,containerID,basedirectory):
         for vr_name in os.listdir(basedirectory): #Folders under VR exists
             vr_path = os.path.join(basedirectory, vr_name) # Example /output/Client
             if os.path.isdir(vr_path): # if /output/Client is a directory
-                vrid_file = os.path.join(vr_path, "vrid.json") # vrif_file = /output/Client/vr.json
                 bgproutefile = os.path.join(vr_path, "bgproutes.json") # = /output/Client/ipv4staticroute.json
-                vr_id = get_vrid(vrid_file)
+                vr_id = get_vrid(vr_path)
                 if vr_id and (is_valid_static_route_file(bgproutefile)):
                     
                     with open(bgproutefile, "r") as file:
                         bgp_routes = json.load(file)
                     
                     for bgp_route in bgp_routes:
-                            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Creating route {bgp_route["name"]}")
+                            #print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Creating route {bgp_route["name"]}")
                             fmc.device.devicerecord.routing.virtualrouter.bgp.create(bgp_route,child_container_uuid=vr_id,container_uuid=containerID)

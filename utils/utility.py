@@ -1,8 +1,9 @@
 import os 
 import json
 
-def get_vrid(file_path):
+def get_vrid(folder_path):
     """Read the vrid.json file and return the id."""
+    file_path = os.path.join(folder_path, "vrid.json")
     try:
         with open(file_path, "r") as file:
             data = json.load(file)
