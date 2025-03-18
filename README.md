@@ -16,12 +16,14 @@ This repository contains Python scripts designed to interact with the Cisco Fire
 
 ---
 
-## Features
-✅ Secure API authentication (token-based)  
-✅ JSON output for easy integration with other tools  
-✅ Error handling and response validation  
-✅ Supports FMC API pagination  
-✅ Easily extensible for additional API endpoints or object types
+## What works
+✅ Physical Interfaces 
+✅ Etherchannel Interfaces 
+✅ Subinterfaces 
+✅ Virtual Routers
+   ✅ IPv4 Static Routes
+   ✅ BGP Routes
+   ✅ ECMP Configuration
 
 ---
 
