@@ -36,10 +36,10 @@ This repository contains Python scripts designed to interact with the Cisco Fire
   ```
 - `.env` file containing:
   ```
-  FMC_HOST=https://<your-fmc-ip>
-  FMC_USERNAME=<your-username>
-  FMC_PASSWORD=<your-password>
-  FTD_NAME=<ftd-name>
+  HOST=https://<your-fmc-ip>
+  USERNAME=<your-username>
+  PASSWORD=<your-password>
+  FTDNAME=<ftd-name>
   ```
 
 > **Note:** Ensure your user account has the required API access permissions in FMC.
