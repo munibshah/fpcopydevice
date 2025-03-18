@@ -34,6 +34,10 @@ This repository contains Python scripts designed to interact with the Cisco Fire
   ```bash
   pip install -r requirements.txt
   ```
+- Enable virtual environment
+  ```bash
+  source virtualenv/bin/activate
+  ```
 - `.env` file containing:
   ```
   HOST=https://<your-fmc-ip>
