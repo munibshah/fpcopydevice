@@ -2,7 +2,7 @@ from fireREST import FMC
 import json
 from config.cleanup import *
 from utils.create_backup import create_backup
-from dotenv import load_env
+from dotenv import load_env # type: ignore
 
     
 

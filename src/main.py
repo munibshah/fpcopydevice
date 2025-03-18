@@ -9,7 +9,7 @@ password = ""
 ftdname = ""
 
 # Define the available commands
-COMMANDS = ["get-main", "create-main", "delete-main"]
+COMMANDS = ["get_configuration", "create_configuration", "delete_configuration"]
 
 class CLI(cmd2.Cmd):
     """Custom CLI for selecting and running commands with tab completion."""
@@ -23,16 +23,16 @@ class CLI(cmd2.Cmd):
     def print_help(self):
         """Show available commands when '?' is pressed."""
         print("\nAvailable commands:")
-        print("  run get-main     - Run the get-main program")
-        print("  run create-main  - Run the create-main program")
-        print("  run delete-main  - Run the delete-main program")
+        print("  run get-configuration     - Run the get-main program")
+        print("  run create-configuration  - Run the create_configuration program")
+        print("  run delete-configuration  - Run the delete_configuration program")
         print("  exit             - Exit the CLI\n")
 
     def do_run(self, line):
-        """Run one of the main programs: get-main, create-main, delete-main."""
+        """Run one of the main programs: get-main, create_configuration, delete_configuration."""
         args = line.split()
         if not args:
-            self.perror("Please specify a command (get-main, create-main, delete-main)")
+            self.perror("Please specify a command (get-main, create_configuration, delete_configuration)")
             return
         
         command = args[0]
@@ -56,8 +56,8 @@ class CLI(cmd2.Cmd):
         """Show available commands."""
         print("\nAvailable commands:")
         print("  run get-main     - Run the get-main program")
-        print("  run create-main  - Run the create-main program")
-        print("  run delete-main  - Run the delete-main program")
+        print("  run create_configuration  - Run the create_configuration program")
+        print("  run delete_configuration  - Run the delete_configuration program")
         print("  exit             - Exit the CLI\n")
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ import os
 import json
 from utils.utility import *
 from datetime import datetime
-import dotenv
+
 
 
 def create_vr(fmc,containerID,folderpath):

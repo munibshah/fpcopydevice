@@ -1,7 +1,7 @@
 from fireREST import FMC
 from config.create import *
-from .get_main import *
-from dotenv import load_dotenv 
+from .get_configuration import *
+from dotenv import load_dotenv # type: ignore
 
 
 # Read YAML file
@@ -43,7 +43,7 @@ def main():
     
     create_vr_bgp(fmc,containerID,vrdirectory)
     
-    print("Run get_main to update json data for delete to work..")
+    print("Run get_configuration to update json data for delete to work..")
 
 if __name__ == "__main__":
     main()
