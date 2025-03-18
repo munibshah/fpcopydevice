@@ -9,7 +9,7 @@ from dotenv import load_dotenv # type: ignore
 
 
 def main():
-    load_dotenv(dotenv_path="../.env", override=True)
+    load_dotenv(dotenv_path=".env", override=True)
     host = os.getenv("HOST")
     username = os.getenv("USERNAME")
     password = os.getenv("PASSWORD")
@@ -67,6 +67,6 @@ def main():
             get_vr_ecmpzones(fmc,containerID,vr["id"],folderpath=directory)
 
     else:
-        print("\nExisiting program..")
+        print("\nExiting program..")
 if __name__ == "__main__":
     main()
