@@ -17,13 +17,13 @@ This repository contains Python scripts designed to interact with the Cisco Fire
 ---
 
 ## What works
-✅ Physical Interfaces 
-✅ Etherchannel Interfaces 
-✅ Subinterfaces 
-✅ Virtual Routers
-✅ IPv4 Static Routes
-✅ BGP Routes
-✅ ECMP Configuration
++ Physical Interfaces 
++ Etherchannel Interfaces 
++ Subinterfaces 
++ Virtual Routers
+++ IPv4 Static Routes
+++ BGP Routes
+++ ECMP Configuration
 
 ---
 
