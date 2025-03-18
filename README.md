@@ -38,9 +38,9 @@ This repository contains Python scripts designed to interact with the Cisco Fire
   ```
 - Use the following commands
   ```
-  run get-main # to collect configuration from source FTD
-  run create-main # to create objects on target FTD
-  run delete-main # to delete objects 
+  run get_configuration # to collect configuration from source FTD
+  run create_configuration # to create objects on target FTD
+  run delete_configuration # to delete objects 
   ```
 
 ---
