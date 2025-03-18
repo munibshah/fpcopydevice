@@ -16,6 +16,34 @@ This repository contains Python scripts designed to interact with the Cisco Fire
 
 ---
 
+## How to run 
+- Installed Python libraries:
+  ```bash
+  pip install -r requirements.txt
+  ```
+- Enable virtual environment
+  ```bash
+  source virtualenv/bin/activate
+  ```
+- `.env` file containing:
+  ```bash
+  HOST=https://<your-fmc-ip>
+  USERNAME=<your-username>
+  PASSWORD=<your-password>
+  FTDNAME=<ftd-name>
+  ```
+- Run the main file
+  ```bash
+  python3 -m src.main
+  ```
+- Use the following commands
+  ```
+  run get-main # to collect configuration from source FTD
+  run create-main # to create objects on target FTD
+  run delete-main # to delete objects 
+  ```
+
+---
 ## What works
 + Physical Interfaces 
 + Etherchannel Interfaces 
