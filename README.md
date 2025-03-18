@@ -8,11 +8,11 @@ This repository contains Python scripts designed to interact with the Cisco Fire
 
 ## Scripts Included
 
-| Script Name     | Description                                                                                   |
-|-----------------|-----------------------------------------------------------------------------------------------|
-| `main_get.py`    | Retrieves device specific settings such as interfaces, routes using the REST API.            |
-| `main_delete.py` | Deletes specified FTD objects or policies by their unique ID.                                |
-| `main_create.py` | Creates new objects and routes based on input JSON payloads or templates.                    |
+| Script Name       | Description                                                                                   |
+|-----------------  |-----------------------------------------------------------------------------------------------|
+| `get_config.py`    | Retrieves device specific settings such as interfaces, routes using the REST API.            |
+| `delete_config.py` | Deletes specified FTD objects or policies by their unique ID.                                |
+| `create_config.py` | Creates new objects and routes based on input JSON payloads or templates.                    |
 
 ---
 
