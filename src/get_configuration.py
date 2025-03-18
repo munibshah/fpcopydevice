@@ -9,11 +9,12 @@ from dotenv import load_dotenv # type: ignore
 
 
 def main():
-    load_dotenv(dotenv_path=".env")
+    load_dotenv(dotenv_path="../.env", override=True)
     host = os.getenv("HOST")
     username = os.getenv("USERNAME")
     password = os.getenv("PASSWORD")
     ftdname = os.getenv("FTDNAME")
+    print(host)
     
     user_input = input("This operation will overwrite all files in the output folder. Do you wish to proceed [Y]: ")
     if user_input.upper() == "Y":

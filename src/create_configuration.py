@@ -39,12 +39,12 @@ if __name__ == "__main__":
     elif args.function == 'create_vr_ecmpzones':
         fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
         initialize_vr_get_id(fmc,containerID)
-        create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
+        create_vr_ecmpzones(fmc,containerID,vrdirectory)
 
     elif args.function == 'create_vr_bgp':
         fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
         initialize_vr_get_id(fmc,containerID)
-        create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
+        create_vr_bgp(fmc,containerID,vrdirectory)
     
     elif args.function == 'all':
          main()
