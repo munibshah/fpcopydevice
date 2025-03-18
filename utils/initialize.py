@@ -4,16 +4,16 @@ from dotenv import load_dotenv # type: ignore
 import argparse
 from src.get_configuration import *
 
-def initialize_vr_get_id(vrfolderpath="output"):
+def initialize_vr_get_id(fmc,containerID,vrfolderpath="output"):
     virtualrouters = get_vr(fmc,containerID,folderpath=vrfolderpath)
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Virtual Routing Configuration saved in {vrfolderpath}")
 
     for vr in virtualrouters:
             #Main directory for all VRFs 
-            directory =f"output/VirtualRouters/{vr["name"]}"
-            os.makedirs(directory, exist_ok=True)
-            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] New VRF ID saved in {directory}")
-            get_vrid(directory,vr['name'])
+            vrfoldername =f"output/VirtualRouters/{vr["name"]}"
+            os.makedirs(vrfoldername, exist_ok=True)
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] New VRF ID saved in {vrfoldername}")
+            get_vrid(vrfoldername)
 
 def initialize_fmc_object():
     load_dotenv(dotenv_path=".env")
@@ -35,8 +35,8 @@ def initialize_fmc_object():
 
     for vr in virtualrouters:
             #Main directory for all VRFs 
-            foldername =f"output/VirtualRouters/{vr["name"]}"
-            os.makedirs(foldername, exist_ok=True)
-            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] New VRF ID saved in {foldername}")
-            get_vrid(foldername)
+            vrfoldername =f"output/VirtualRouters/{vr["name"]}"
+            os.makedirs(vrfoldername, exist_ok=True)
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] New VRF ID saved in {vrfoldername}")
+            get_vrid(vrfoldername)
     return(fmc,containerID,vrfolderpath,vrdirectory)
