@@ -5,12 +5,15 @@ from datetime import datetime
 from config.parser import *
 from utils.create_backup import create_backup
 from config.cleanup import clear_output_folder
+from dotenv import load_dotenv
+
 
 def main():
-    host = ""
-    username = ""
-    password = ""
-    ftdname = ""
+    load_dotenv(dotenv_path=".env")
+    host = os.getenv("HOST")
+    username = os.getenv("USERNAME")
+    password = os.getenv("PASSWORD")
+    ftdname = os.getenv("FTDNAME")
     
     user_input = input("This operation will overwrite all files in the output folder. Do you wish to proceed [Y]: ")
     if user_input.upper() == "Y":

@@ -9,6 +9,7 @@ logger==1.4
 packaging==24.2
 py==1.11.0
 pyperclip==1.9.0
+python-dotenv==1.0.1
 PyYAML==6.0.2
 requests==2.32.3
 retry==0.9.2

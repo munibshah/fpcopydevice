@@ -1,6 +1,7 @@
 import yaml
 import os
 import json
+import dotenv
 
 def phyintf_yaml(fmc,containerID,folderpath="interfaces.yaml"):
     data = fmc.device.devicerecord.physicalinterface.get(container_uuid=containerID)

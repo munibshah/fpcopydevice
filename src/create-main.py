@@ -1,15 +1,17 @@
 from fireREST import FMC
 from config.create import *
 from .get_main import *
+from dotenv import load_dotenv 
 
 
 # Read YAML file
 
 def main():
-    host = ""
-    username = ""
-    password = ""
-    ftdname = ""  
+    load_dotenv(dotenv_path=".env")
+    host = os.getenv("HOST")
+    username = os.getenv("USERNAME")
+    password = os.getenv("PASSWORD")
+    ftdname = os.getenv("FTDNAME")
 
     #Initialize the FMC object and get the container ID for ftdname
 

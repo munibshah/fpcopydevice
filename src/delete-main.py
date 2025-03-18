@@ -2,6 +2,7 @@ from fireREST import FMC
 import json
 from config.cleanup import *
 from utils.create_backup import create_backup
+from dotenv import load_env
 
     
 
@@ -9,11 +10,11 @@ from utils.create_backup import create_backup
 # Read YAML file
 
 def main():
-    
-    host = ""
-    username = ""
-    password = ""
-    ftdname = ""
+    load_dotenv(dotenv_path=".env")
+    host = os.getenv("HOST")
+    username = os.getenv("USERNAME")
+    password = os.getenv("PASSWORD")
+    ftdname = os.getenv("FTDNAME")
 
     #Initialize the FMC object and get the container ID for ftdname
     
