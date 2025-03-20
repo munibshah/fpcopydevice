@@ -1,6 +1,6 @@
 from fireREST import FMC
 import json
-from config.cleanup import *
+from config.delete import *
 from utils.create_backup import create_backup
 from dotenv import load_dotenv # type: ignore
 import argparse

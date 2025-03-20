@@ -2,20 +2,47 @@ import os
 import json
 from utils.utility import *
 from datetime import datetime
+from config.write import *
+from config.fetch import *
 
+def create_subintf(fmc,containerID,folderpath="output/Interfaces"):
+    phyintfvrfilepath = os.path.join(folderpath, "subintf.json")
+    with open(phyintfvrfilepath, mode="r") as file:
+        data = json.load(file)
+    for intf in data:
+        print(intf)
+        fmc.device.devicerecord.subinterface.create(intf,container_uuid=containerID)
 
+def create_etherintf(fmc,containerID,folderpath="output/Interfaces"):
+    phyintfvrfilepath = os.path.join(folderpath, "etherintf.json")
+    with open(phyintfvrfilepath, mode="r") as file:
+        data = json.load(file)
+    for intf in data:
+        print(intf)
+        fmc.device.devicerecord.etherchannelinterface.create(intf,container_uuid=containerID)
 
+def create_phyintf(fmc,containerID,folderpath):
+    phyintfvrfilepath = os.path.join(folderpath, "phyintf.json")
+    with open(phyintfvrfilepath, mode="r") as file:
+        data = json.load(file)
+    for intf in data:
+        print(intf)
+        fmc.device.devicerecord.physicalinterface.create(intf,container_uuid=containerID)
+    
 def create_vr(fmc,containerID,folderpath):
     vrfilepath = os.path.join(folderpath, "vr.json")
     with open(vrfilepath, mode="r") as file:
         data = json.load(file)
+    get_name_id_mapping(data)
     for vr in data:
         print(f"Creating VR with name {vr["name"]} and id {vr["id"]}")
         fmc.device.devicerecord.routing.virtualrouter.create(vr,container_uuid=containerID)
+        write_vr_id(vr["id"], folderpath=folderpath)
 
 def create_vr_ipv4staticroutes(fmc,containerID,basedirectory):
     VR = fmc.device.devicerecord.routing.virtualrouter.get(container_uuid=containerID)
-
+    for vr in VR:
+         write_vr_id(vr["id"], folderpath="output/VirtualRouters")
     if os.path.exists(basedirectory): #output/VR exists
         for vr_name in os.listdir(basedirectory): #Folders under VR exists
             vr_path = os.path.join(basedirectory, vr_name) # Example /output/Client

@@ -1,6 +1,7 @@
 import yaml
 import os
 import json
+from typing import List, Dict,Any
 
 def get_phyintf(fmc,containerID,folderpath="interfaces.yaml"):
     data = fmc.device.devicerecord.physicalinterface.get(container_uuid=containerID)
@@ -83,6 +84,7 @@ def get_etherintf(fmc,containerID,folderpath="interfaces.yaml"):
         converted_data = {
         "name": obj.get("name"),
         "enabled": obj.get("enabled"),
+        "mode": obj.get("mode"),
         "id": obj.get("id"),
         "MTU": obj.get("MTU"),
         "etherChannelId": obj.get("etherChannelId"),
@@ -265,3 +267,14 @@ def get_vr_ecmpzones(fmc,containerID, vr_id, folderpath="ecmpzones.yaml",vridonl
         vridoutput = os.path.join(folderpath, "vrid.json")
         with open(vridoutput, "w") as f:
             f.write(vr_string)
+
+def get_name_id_mapping(data: List[Dict[str, Any]]) -> Dict[str, str]:
+    """
+    Extract name to ID mapping from the GET output data.
+    """
+    name_id_map = {}
+    for item in data:
+        if 'name' in item and 'id' in item:
+            # Create mapping from name to ID
+            name_id_map[item['name']] = item['id']
+    return name_id_map
