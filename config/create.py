@@ -3,15 +3,15 @@ import json
 from utils.utility import *
 from datetime import datetime
 from config.write import *
-from config.fetch import *
+from config.get import *
 
 def create_subintf(fmc,containerID,folderpath="output/Interfaces"):
     phyintfvrfilepath = os.path.join(folderpath, "subintf.json")
     with open(phyintfvrfilepath, mode="r") as file:
         data = json.load(file)
-    for intf in data:
-        print(intf)
-        fmc.device.devicerecord.subinterface.create(intf,container_uuid=containerID)
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Creating sub-interfaces in bulk")
+        fmc.device.devicerecord.subinterface.create(data,container_uuid=containerID)
+        
 
 def create_etherintf(fmc,containerID,folderpath="output/Interfaces"):
     phyintfvrfilepath = os.path.join(folderpath, "etherintf.json")
@@ -33,14 +33,15 @@ def create_vr(fmc,containerID,folderpath):
     vrfilepath = os.path.join(folderpath, "vr.json")
     with open(vrfilepath, mode="r") as file:
         data = json.load(file)
-    get_name_id_mapping(data)
     for vr in data:
-        print(f"Creating VR with name {vr["name"]} and id {vr["id"]}")
+        print(f"Creating VR with name {vr["name"]}")
         fmc.device.devicerecord.routing.virtualrouter.create(vr,container_uuid=containerID)
-        write_vr_id(vr["id"], folderpath=folderpath)
 
 def create_vr_ipv4staticroutes(fmc,containerID,basedirectory):
+    #get all VR from the FMC 
     VR = fmc.device.devicerecord.routing.virtualrouter.get(container_uuid=containerID)
+
+    #Write VRID 
     for vr in VR:
          write_vr_id(vr["id"], folderpath="output/VirtualRouters")
     if os.path.exists(basedirectory): #output/VR exists
@@ -55,6 +56,8 @@ def create_vr_ipv4staticroutes(fmc,containerID,basedirectory):
                 
                 for vr_route in vr_routes:
                     if vr_id and is_valid_static_route_file(ipv4staticroutefile):
+                        print(vr_route)
+                        print("vrf_id:" + vr_id)
                         fmc.device.devicerecord.routing.virtualrouter.ipv4staticroute.create(vr_route,child_container_uuid=vr_id,container_uuid=containerID)
 
 
@@ -73,7 +76,7 @@ def create_vr_ecmpzones(fmc,containerID,basedirectory):
                 
                 for vr_route in vr_routes:
                     if vr_id and is_valid_static_route_file(ecmpzonefile):
-                        fmc.device.devicerecord.routing.virtualrouter.ecmpzone.create(vr_route,child_container_uuid=vr_id,container_uuid=containerID)
+                        fmc.device.devicerecord.routing.virtualrouter.ecmpzones.create(vr_route,child_container_uuid=vr_id,container_uuid=containerID)
 
 def create_vr_bgp(fmc,containerID,basedirectory):
     if os.path.exists(basedirectory): #output/VR exists

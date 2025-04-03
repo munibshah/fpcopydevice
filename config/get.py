@@ -23,7 +23,7 @@ def get_phyintf(fmc,containerID,folderpath="interfaces.yaml"):
     json_string = json.dumps(json_converted_data,indent=2)
 
     # Writing to files
-    phyfilepath = os.path.join(folderpath, "phyintf.yaml")
+    phyfilepath = os.path.join(folderpath, "phyintf.json")
     mode = "a" if os.path.isfile(folderpath) else "w"
     with open(phyfilepath, mode) as f:
         f.write(yaml_string)
@@ -67,11 +67,11 @@ def get_subintf(fmc,containerID,folderpath="interfaces.yaml"):
 
     # Writing to files
     subfilepath = os.path.join(folderpath, "subintf.yaml")
-    mode = "a" if os.path.isfile(folderpath) else "w"
+    mode = "w"
     with open(subfilepath, mode) as f:
         f.write(yaml_string)
     subjsonpath = os.path.join(folderpath, "subintf.json")
-    mode = "a" if os.path.isfile(folderpath) else "w"
+    mode = "w"
     with open(subjsonpath,mode) as f:
         f.write(json_string)
 
@@ -139,12 +139,14 @@ def get_vr_ipv4staticroutes(fmc,containerID, vr_id, folderpath="output",vridonly
     for obj in ipv4staticroute:
         minimal_obj = {
                 "interfaceName": obj.get("interfaceName"),
-                "gateway": obj.get("gateway", []),
                 "selectedNetworks": obj.get("selectedNetworks", []),
                 "metricValue": obj.get("metricValue"),
                 "type": obj.get("type"),
                 "id": obj.get("id")
             }
+        gateway = obj.get("gateway", [])
+        if gateway:  # Only add if not empty
+            minimal_obj["gateway"] = gateway
         json_converted_data.append(minimal_obj)
     
     id_obj = {
@@ -268,13 +270,14 @@ def get_vr_ecmpzones(fmc,containerID, vr_id, folderpath="ecmpzones.yaml",vridonl
         with open(vridoutput, "w") as f:
             f.write(vr_string)
 
-def get_name_id_mapping(data: List[Dict[str, Any]]) -> Dict[str, str]:
+def get_name_id_mapping(fmc,containerID,childID="subintf") -> Dict[str, str]:
     """
     Extract name to ID mapping from the GET output data.
     """
+    if childID == "subintf":
+        data = fmc.device.devicerecord.subinterface.get(container_uuid=containerID)
     name_id_map = {}
-    for item in data:
-        if 'name' in item and 'id' in item:
-            # Create mapping from name to ID
-            name_id_map[item['name']] = item['id']
+    for interface in data:
+        if 'ifname' in interface and 'id' in interface:
+            name_id_map[interface['ifname']] = interface['id']
     return name_id_map

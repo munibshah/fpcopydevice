@@ -2,7 +2,7 @@ from fireREST import FMC
 import os 
 import argparse
 from datetime import datetime
-from config.fetch import *
+from config.get import *
 from utils.create_backup import create_backup
 from config.delete import clear_output_folder
 from dotenv import load_dotenv # type: ignore

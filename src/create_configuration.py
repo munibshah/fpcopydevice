@@ -4,13 +4,13 @@ from .get_configuration import *
 from dotenv import load_dotenv # type: ignore
 import argparse
 from utils.initialize import *
+from config.update import update_vr_with_intfid
 
 # Read YAML file
 
 def main():
     
     fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
-    
     
     #Get created ipv4staticroutes by iterating over every folder in the folder VR. vr.json is used for the ID 
     create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
@@ -43,14 +43,28 @@ if __name__ == "__main__":
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Creating Subinterfaces Interfaces in {folderpath}")
         create_subintf(fmc,containerID,"output/Interfaces")
 
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Sub-interfaces interfaces saved in output/Interfaces")
+        get_subintf(fmc,containerID,"output/Interfaces")
+
+        vr_name_id_map = get_name_id_mapping(fmc,containerID,childID="subintf") #get new id and name from the fmc using subintf.get (live get)
+        update_vr_with_intfid(vr_name_id_map) #update the VR with Interfaces which have the same ifname in name-map
+
     if args.function == 'create_vr':
         fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Creating VR from {vrdirectory}/vr.json")
-        create_vr(fmc,containerID,folderpath)
+        create_vr(fmc,containerID,folderpath="output")
+
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Virtual Routing Configuration saved in output/vr.json")
+        virtualrouters = get_vr(fmc,containerID,folderpath="output") #Get and store new VR configuration in output/vr.json
+        for vr in virtualrouters:
+            write_vr_id(vr["id"],vr["name"],"output/VirtualRouters") #write vrid per folder 
+
 
     elif args.function == 'create_vr_ipv4staticroutes':
-        fmc,containerID,folderpath,vrdirectory=initialize_fmc_object_with_vr()
-        initialize_vr_get_id(fmc,containerID)
+        #Initialize fmc object, getes VRs from FMC and stores in vr.json, writes from geted list in {VRfolder}/vr.json
+        fmc,containerID,folderpath,vrdirectory=initialize_fmc_object_with_vr() 
+        #Read the vrid.json file and return the id.
+        #initialize_vr_get_id(fmc,containerID)
         create_vr_ipv4staticroutes(fmc,containerID,vrdirectory)
 
     elif args.function == 'create_vr_ecmpzones':

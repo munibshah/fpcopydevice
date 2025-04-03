@@ -1,7 +1,7 @@
 import os
 import shutil
 import json
-import datetime
+from datetime import datetime
 
 def create_backup(folder_name='output'):
     if not os.path.exists(folder_name):
@@ -35,12 +35,20 @@ def clear_output_folder(output_dir="output"):
 
 def delete_vr(fmc,containerID,folderpath):
     vrfilepath = os.path.join(folderpath, "vr.json")
-    create_backup()
     with open(vrfilepath, mode="r") as file:
         data = json.load(file)
     for vrf in data:
         vrf_id = vrf["id"]
         vrf_name = vrf["name"]
         if vrf_name.lower() != "global":
-            print(f"I am going to delete {vrf_name} with uuid {vrf_id} and container {containerID}")
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Deleting {vrf_name} with uuid {vrf_id}")
             fmc.device.devicerecord.routing.virtualrouter.delete(uuid=vrf_id,container_uuid=containerID)
+
+def delete_subintf(fmc,containerID,folderpath):
+    with open("output/Interfaces/subintf.json", mode="r") as file:
+        data = json.load(file)
+    for intf in data:
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Deleting Interface with name {intf["ifname"]}")
+        fmc.device.devicerecord.subinterface.delete(uuid=intf["id"],container_uuid=containerID)
+
+        

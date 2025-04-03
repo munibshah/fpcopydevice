@@ -20,16 +20,15 @@ def update_vr_with_intfid(name_id_map: Dict[str, str]) -> None:
         
         # Track if we made any updates
         updates_made = False
-
         for vr in vr_data:
             if 'interfaces' in vr:
                 for interface in vr['interfaces']:
-                    if 'name' in interface and interface['name'] in name_id_map:
+                    if 'ifname' in interface and interface['ifname'] in name_id_map:
                         # Update the ID based on the name mapping
                         old_id = interface['id']
-                        new_id = name_id_map[interface['name']]
+                        new_id = name_id_map[interface['ifname']]
                         if old_id != new_id:
-                            print(f"Updating interface with name '{interface['name']}' ID from {old_id} to {new_id}")
+                            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Updating interface with name '{interface['ifname']}' ID from {old_id} to {new_id}")
                             interface['id'] = new_id
                             updates_made = True
         

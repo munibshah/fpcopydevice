@@ -6,6 +6,7 @@ from src.get_configuration import *
 from config.write import *
 
 def initialize_vr_get_id(fmc,containerID,vrfolderpath="output"):
+    #Fetches from FMC and stores in vr.json
     virtualrouters = get_vr(fmc,containerID,folderpath=vrfolderpath)
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Virtual Routing Configuration saved in {vrfolderpath}")
 
@@ -49,12 +50,12 @@ def initialize_fmc_object_with_vr():
         vrfolderpath = "output"
         vrdirectory = "output/VirtualRouters"
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Virtual Routing Configuration saved in {vrfolderpath}")
-        virtualrouters = get_vr(fmc,containerID,folderpath=vrfolderpath)
+        
+        #Fetches from FMC and stores in vr.json
+        virtualrouters = get_vr(fmc,containerID,folderpath=vrfolderpath) 
         for vr in virtualrouters:
-                #Main directory for all VRFs 
                 vrfoldername =f"output/VirtualRouters/{vr["name"]}"
                 os.makedirs(vrfoldername, exist_ok=True)
                 print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] New VRF ID saved in {vrfoldername}")
-                write_vr_id(vr["id"],vrfoldername)
-                print("Written")
+                write_vr_id(vr["id"],vrfoldername) # Write vd["id"] to the vrid.json in each VR folder 
         return (fmc,containerID,vrfolderpath,vrdirectory)
