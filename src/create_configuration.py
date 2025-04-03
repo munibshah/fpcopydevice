@@ -58,7 +58,7 @@ if __name__ == "__main__":
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Virtual Routing Configuration saved in output/vr.json")
         virtualrouters = get_vr(fmc,containerID,folderpath="output") #Get and store new VR configuration in output/vr.json
         for vr in virtualrouters:
-            write_vr_id(vr["id"],vr["name"],"output/VirtualRouters") #write vrid per folder 
+            write_vr_id(vr["id"],"output/VirtualRouters") #write vrid per folder 
 
 
     elif args.function == 'create_vr_ipv4staticroutes':
