@@ -1,3 +1,6 @@
+import fireREST
+
+print(fireREST.__file__)
 from fireREST import FMC
 from config.create import *
 from .get_configuration import *
@@ -5,6 +8,8 @@ from dotenv import load_dotenv # type: ignore
 import argparse
 from utils.initialize import *
 from config.update import update_vr_with_intfid
+
+
 
 # Read YAML file
 
