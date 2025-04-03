@@ -1,7 +1,3 @@
-import fireREST
-
-print(fireREST.__file__)
-from fireREST import FMC
 from config.create import *
 from .get_configuration import *
 from dotenv import load_dotenv # type: ignore
@@ -52,7 +48,7 @@ if __name__ == "__main__":
         get_subintf(fmc,containerID,"output/Interfaces")
 
         vr_name_id_map = get_name_id_mapping(fmc,containerID,childID="subintf") #get new id and name from the fmc using subintf.get (live get)
-        update_vr_with_intfid(vr_name_id_map) #update the VR with Interfaces which have the same ifname in name-map
+        update_vr_with_intfid(vr_name_id_map) #update the VR with Interfaces which have the same ifname in name-map. This needs to be repeated for every interface type.
 
     if args.function == 'create_vr':
         fmc,containerID,folderpath,vrdirectory=initialize_fmc_object()

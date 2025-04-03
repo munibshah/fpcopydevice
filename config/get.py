@@ -189,7 +189,6 @@ def get_vr_bgproutes(fmc,containerID, vr_id, folderpath="bgp.yaml",vridonly=Fals
                 "bgpSupressInactive": obj.get("addressFamilyIPv4", {}).get("bgpSupressInactive"),
                 "synchronization": obj.get("addressFamilyIPv4", {}).get("synchronization"),
                 "bgpRedistributeInternal": obj.get("addressFamilyIPv4", {}).get("bgpRedistributeInternal"),
-                "maximumPaths": obj.get("addressFamilyIPv4", {}).get("maximumPaths"),
                 "neighbors": obj.get("addressFamilyIPv4", {}).get("neighbors"),
                 "networks": obj.get("addressFamilyIPv4", {}).get("networks"),
                 "routeImportExport": obj.get("addressFamilyIPv4", {}).get("routeImportExport"),

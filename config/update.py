@@ -47,3 +47,4 @@ def update_vr_with_intfid(name_id_map: Dict[str, str]) -> None:
     except IOError as e:
         print(f"Error writing to {vr_file_path}: {e}")
         sys.exit(1)
+    
