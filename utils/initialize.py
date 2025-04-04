@@ -1,4 +1,4 @@
-from fireREST import FMC
+from firerest76 import FMC
 from config.create import *
 from dotenv import load_dotenv # type: ignore
 import argparse

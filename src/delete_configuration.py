@@ -1,4 +1,4 @@
-from fireREST import FMC
+from firerest76 import FMC
 import json
 from config.delete import *
 from utils.create_backup import create_backup

@@ -8,3 +8,4 @@ utils/__pycache__/
 .env
 backup*
 .DS*
+gitenv/

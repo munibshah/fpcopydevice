@@ -1,4 +1,4 @@
-from fireREST import FMC
+from firerest76 import FMC
 import os 
 import argparse
 from datetime import datetime
